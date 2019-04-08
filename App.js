@@ -1,60 +1,81 @@
 import React, { Component } from 'react';
-import { AppRegistry, Text, View, TouchableHighlight, StyleSheet, TextInput } from 'react-native';
+import { AppRegistry, Text, View, TouchableHighlight, StyleSheet, TextInput, ActivityIndicator } from 'react-native';
 import { Constants } from 'expo';
 
 export default class App extends Component {
-    state = {
-        bal: 1.00,
-        newBal: 0,
-        inputValue: 'Input Text Here',
-        newText: '',
+    constructor(props){
+        super(props)
+        this.state = {
+            bal:1.00,
+            newBal:0,
+            inputValue: "",
+            isLoading: true,
+            dataSource: null,
+        }
     }
+
+    componentDidMount (){
+        return fetch('http://www.apilayer.net/api/live?access_key=0284c7cb41a1263cdf56d5efedebaf2b')
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    isLoading: false,
+                    dataSource: responseJson.quotes,
+                })
+            })
+ 
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+
+
     
     usdToEuro = () => {
         this.setState({
-            newBal: this.state.inputValue * .85,
+            newBal: this.state.inputValue * this.state.dataSource.USDEUR,
         })
 }
 
 usdToPound = () => {
         this.setState({
-            newBal: this.state.inputValue * .75,
+            newBal: this.state.inputValue * this.state.dataSource.USDGBP,
         })
 }
 
 usdToRupee = () => {
         this.setState({
-            newBal: this.state.inputValue * 67.60,
+            newBal: this.state.inputValue * this.state.dataSource.USDINR,
         })
 }
 
 usdToAussie = () => {
         this.setState({
-            newBal: this.state.inputValue * 1.32,
+            newBal: this.state.inputValue * this.state.dataSource.USDAUD,
         })
 }
 
 usdToCad = () => {
         this.setState({
-            newBal: this.state.inputValue * 1.30,
+            newBal: this.state.inputValue * this.state.dataSource.USDCAD,
         })
 }
 
 usdToFranc = () => {
         this.setState({
-            newBal: this.state.inputValue * .99,
+            newBal: this.state.inputValue * this.state.dataSource.USDCHF,
         })
 }
 
 usdToYuan = () => {
         this.setState({
-            newBal: this.state.inputValue * 6.40,
+            newBal: this.state.inputValue * this.state.dataSource.USDCNY,
         })
 }
 
 usdToYen = () => {
         this.setState({
-            newBal: this.state.inputValue * 110.67,
+            newBal: this.state.inputValue * this.state.dataSource.USDJPY,
         })
 }
 
@@ -70,6 +91,14 @@ _handleTextChange = inputValue => {
     
 
     render() {
+        if(this.state.isLoading) {
+            return(
+                <View style = {styles.container}>
+                    <ActivityIndicator/>
+                </View>
+            )
+        } else{
+    
         return (
         
             <View style={styles.container}>
@@ -191,6 +220,7 @@ _handleTextChange = inputValue => {
             </View>
       );
    }
+}
 }
 
 const styles = StyleSheet.create({
