@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Text, View, TouchableHighlight, StyleSheet, TextInput, ActivityIndicator } from 'react-native';
+import { AppRegistry, Text, View, TouchableHighlight, StyleSheet, TextInput, ActivityIndicator, ImageBackground } from 'react-native';
 import { Constants } from 'expo';
 
 export default class App extends Component {
@@ -102,6 +102,10 @@ _handleTextChange = inputValue => {
         return (
         
             <View style={styles.container}>
+            <ImageBackground
+                    style={styles.imgBackground}
+                    source={{ uri: 'https://media.graytvinc.com/images/810*455/American+Flag44.jpg' }}
+                >
                 <TextInput
                     value={this.state.inputValue}
                     onChangeText={this._handleTextChange}
@@ -216,7 +220,7 @@ _handleTextChange = inputValue => {
                 <Text style={styles.paragraph}>
                     Converted currency value: {this.state.newBal.toFixed(2)}
                 </Text>
-                
+                </ImageBackground>
             </View>
       );
    }
@@ -241,6 +245,7 @@ const styles = StyleSheet.create({
         borderColor: '#7B5DF9',
         borderWidth: 1,
         marginHorizontal: 5,
+        borderRadius: 10,
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -249,22 +254,31 @@ const styles = StyleSheet.create({
     },
     paragraph: {
       marginBottom: 10,
-        fontSize: 12,
+        fontSize: 15,
         fontWeight: 'bold',
         textAlign: 'center',
     },
     title: {
       marginBottom: 10,
-        fontSize: 12,
+        fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'center',
-        color: '#068723',
+        color: '#a6a6a6',
     },
     
     buttonText: {
         fontSize: 15,
         fontWeight: 'bold',
         textAlign: 'center',
+        
+    },
+
+    imgBackground: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%',
+        flex: 1,
         
     },
     
